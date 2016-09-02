@@ -1,0 +1,17 @@
+---
+
+- name: configure and deploy collectd for performance monitoring
+  hosts: collectd_clients
+  remote_user: root
+
+  roles:
+      - common
+      - client
+
+- name: configure and deploy a performance monitoring server
+  hosts: monitoring_server
+  remote_user: root
+
+  roles:
+      - common
+      - server

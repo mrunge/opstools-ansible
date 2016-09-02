@@ -1,0 +1,6 @@
+[collectd_clients]
+192.168.36.71
+
+
+[monitoring_server]
+192.168.36.71
