@@ -1,0 +1,18 @@
+---
+- name: enable mitaka repos
+  yum: name={{ item }} state=present
+  with_items:
+      - sensu
+      - centos-release-openstack-mitaka
+
+- name: install osopstools
+  yum: name={{ item }} state=present
+  with_items:
+      - osops-tools-monitoring-oschecks
+
+- name: place config file
+  template: src=ostests.json.j2 dest=/etc/sensu/conf.d/ostests.json
+  notify: restart sensu-client
+
+- name: enable sensu-client
+  service: name=sensu-client state=started enabled=yes

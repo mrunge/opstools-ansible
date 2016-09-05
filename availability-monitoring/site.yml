@@ -1,0 +1,17 @@
+---
+
+- name: configure and deploy sensu for availability monitoring on clients
+  hosts: sensu_clients
+  remote_user: root
+
+  roles:
+      - common
+      - client
+
+- name: configure and deploy sensu server and uchiwa
+  hosts: sensu_server
+  remote_user: root
+
+  roles:
+      - common
+      - server

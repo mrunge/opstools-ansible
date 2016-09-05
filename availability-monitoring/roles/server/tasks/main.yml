@@ -1,0 +1,43 @@
+---
+- name: install sensu
+  yum: name={{ item }} state=present
+  with_items:
+      - sensu
+      - centos-release-openstack-mitaka
+
+- name: install osopstools
+  yum: name={{ item }} state=present
+  with_items:
+      - rabbitmq-server
+      - redis
+
+- name: check if firewalld is installed
+  stat: path=/usr/sbin/firewalld
+  register: firewalld
+
+- name: open firewall ports
+  firewalld: port=5672/tcp permanent=true state=enabled immediate=yes
+  firewalld: port=3000/tcp permanent=true state=enabled immediate=yes
+  when: firewalld.stat.exists == True
+
+- name: start redis
+  service: name=redis state=started enabled=yes
+
+- name: start rabbitmq
+  service: name=rabbitmq-server state=started enabled=yes
+
+- name: configure rabbitmq and redis
+  rabbitmq_vhost: name=/sensu state=present
+
+- name: add a user to rabbitmq
+  rabbitmq_user: user=sensu password=sensu vhost=/sensu
+                 configure_priv=.*
+                 read_priv=.*
+                 write_priv=.*
+                 state=present
+
+- name: start sensu-api
+  service: name=sensu-api state=started enabled=yes
+
+- name: start sensu-server
+  service: name=sensu-server state=started enabled=yes

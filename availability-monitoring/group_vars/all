@@ -1,0 +1,8 @@
+
+os_username: admin
+os_password: admin
+os_tenant: admin
+os_region: RegionOne
+os_auth_url: http://192.168.36.10:5000/v2.0
+
+sensu_server: 192.168.36.71

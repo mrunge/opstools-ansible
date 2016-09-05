@@ -1,0 +1,74 @@
+{
+    "checks": {
+        "selftest": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_amqp sensu-client",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_ceilometer_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_ceilometer_api -w 10 -c 20 --os-username {{ os_username }} --os-password {{os_password }} --os-project-name {{ os_tenant }} --os-auth-url {{ os_auth_url }} --region-name {{ os_region }} --os-tenant-name {{ os_tenant }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_cinder_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_cinder_api -w 10 -c 20 --os-username {{ os_username }} --os-password {{ os_password }} --os-project-name {{ os_tenant }} --os-auth-url {{ os_auth_url }} --region-name {{ os_region }} --os-tenant-name {{ os_tenant }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_cinder_volume": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_cinder_volume --username {{ os_username }} --password {{ os_password }} --auth_url {{ os_auth_url }}  --tenant {{ os_tenant }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 600
+        },
+        "oschecks-check_glance_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_glance_api -w 10 -c 20 --os-username {{ os_username }} --os-password {{ os_password }} --os-project-name {{ os_tenant }} --os-auth-url {{ os_auth_url }} --region-name {{ os_region }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_keystone_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_keystone_api -w 10 -c 20 --os_username {{ os_username }} --os_password {{ os_password }} --os_project_name {{ os_tenant }} --os_auth_url {{ os_auth_url }} --region_name {{ os_region }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_neutron_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_neutron_api -w 10 -c 20 --os_username {{ os_username }} --os_password {{ os_password }} --os_project_name {{ os_tenant }} --os_auth_url {{ os_auth_url }} --region_name {{ os_region }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_nova_api": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_nova_api -w 10 -c 20 --os-username {{ os_username }} --os-password {{ os_password }} --os-project-name {{ os_tenant }} --os-auth-url {{ os_auth_url }} --region-name {{ os_region }} --os-tenant-name {{ os_tenant }}",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 60
+        },
+        "oschecks-check_nova_instance": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_nova_instance --auth_url {{ os_auth_url }} --username {{ os_username }} --password {{ os_password }} --tenant {{ os_tenant}} --image_name cirros-3.3",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 600
+        },
+        "oschecks-check_neutron_fips": {
+            "command": "/usr/libexec/openstack-monitoring/checks/oschecks-check_neutron_floating_ip --username {{ os_username }} --password {{ os_password }} --tenant {{ os_tenant }} --auth_url {{ os_auth_url }} --ext_router_name 'external_network'",
+            "subscribers": [
+                "all"
+            ],
+            "interval": 600
+        }
+    }
+}
