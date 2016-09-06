@@ -1,0 +1,7 @@
+---
+- name: Install fluentd
+  yum: name=fluentd state=latest
+
+- name: Install fluentd plugin
+  yum: name=rubygem-fluent-plugin-add state=installed
+

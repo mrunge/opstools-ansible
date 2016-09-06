@@ -1,0 +1,6 @@
+---
+- name: Configure fluentd to accept logs
+  template: src=./roles/fluentd/common/templates/fluent.conf.j2  dest=/etc/fluentd/fluent.conf 
+
+- name: Start the service fluentd and enable at boot
+  service: name=fluentd state=restarted enabled=yes

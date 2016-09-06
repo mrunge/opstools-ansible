@@ -1,0 +1,13 @@
+<source>
+   @type forward
+   port 4000
+   bind 0.0.0.0
+ </source>
+
+ <match **>
+   @type elasticsearch
+   host {{ elasticsearch_server }} 
+   port {{ elasticsearch_port }}
+   logstash_format true
+   flush_interval 5
+ </match>

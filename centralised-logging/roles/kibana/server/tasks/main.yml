@@ -1,0 +1,10 @@
+---
+- name: Install kibana server
+  yum: name=kibana state=installed
+
+- name: Configure kibana3 on httpd.conf
+  template: src=../../common/templates/kibana3.conf.j2  dest=/etc/httpd/conf.d/kibana3.conf
+
+- name: Restart httpd service
+  service: name=httpd state=restarted 
+
