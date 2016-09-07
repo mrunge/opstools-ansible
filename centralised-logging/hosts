@@ -1,0 +1,9 @@
+[fluentd_hosts]
+192.168.36.83
+
+[elasticsearch_hosts]
+192.168.36.83
+
+
+[kibana_hosts]
+192.168.36.83

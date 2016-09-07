@@ -1,0 +1,25 @@
+---
+- name: install kibana
+  yum: name={{ item }} state=present
+  with_items:
+      - kibana
+      - libsemanage-python
+      - libselinux-python
+      - httpd
+
+- name: tweak http conf for proxying kibana
+  template: src=kibana3.conf.j2 dest=/etc/httpd/conf.d/kibana3.conf
+  notify: restart httpd
+
+- name: http service state
+  service: name=httpd state=started enabled=yes
+
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus
+  changed_when: false
+
+- name: set http_can_network_connect
+  seboolean: name=httpd_can_network_connect state=yes persistent=yes
+  when: sestatus.rc != 0
+

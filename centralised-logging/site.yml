@@ -1,0 +1,25 @@
+---
+
+- name: deploy and configure fluentd on nodes
+  hosts: fluentd_hosts
+  remote_user: root
+
+  roles:
+      - common
+      - fluentd
+
+- name: deploy and configure elasticsearch
+  hosts: elasticsearch_hosts
+  remote_user: root
+
+  roles:
+      - common
+      - elasticsearch
+
+- name: deploy and configure kibana
+  hosts: kibana_hosts
+  remote_user: root
+
+  roles:
+      - common
+      - kibana
