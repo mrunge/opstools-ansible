@@ -7,6 +7,3 @@
 
 [kibana_hosts]
 192.168.36.83
-
-[centralized_logging]
-192.168.1.48

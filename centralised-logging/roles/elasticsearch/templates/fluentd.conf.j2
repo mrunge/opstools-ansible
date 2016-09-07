@@ -1,0 +1,14 @@
+ <source>
+   @type forward
+   port 4000
+   bind 0.0.0.0
+ </source>
+
+ #This must be placed at the end of the file as it will process everything
+ <match **>
+   @type elasticsearch
+   host localhost
+   port 9200
+   logstash_format true
+   flush_interval 5
+</match>

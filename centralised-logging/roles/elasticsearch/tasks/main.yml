@@ -1,0 +1,23 @@
+---
+- name: install elasticsearch package
+  yum: name={{ item }} state=present
+  with_items:
+      - java-1.8.0-openjdk
+      - elasticsearch
+      - fluentd
+      - rubygem-fluent-plugin-elasticsearch
+
+- name: configure elasticsearch package
+  template: src=elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml
+  notify: restart elasticsearch
+
+- name: start elasticsearch services
+  service: name=elasticsearch enabled=yes state=started
+
+- name: configure fluentd to accept log data and write it to elasticsearch
+  template: src=fluentd.conf.j2 dest=/etc/fluentd/fluentd.conf
+
+- name: start and enable fluentd
+  service: name=fluentd enabled=yes state=started
+
+

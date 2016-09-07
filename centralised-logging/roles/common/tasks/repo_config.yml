@@ -2,5 +2,28 @@
 - name: place opstools repo
   yum: name=http://buildlogs.centos.org/centos/7/opstools/x86_64/common/centos-release-opstools-1-2.el7.noarch.rpm state=installed
 
-#- name: install python-firewall 
-#  yum: name=python-firewall state=installed
+- name: add kibana repository
+  yum_repository:
+      name: kibana
+      description: kibana 4.6.x packages from elasticsearch
+      baseurl: https://packages.elastic.co/kibana/4.6/centos
+      gpgcheck: yes
+      gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+      enabled: yes
+
+- name: add elasticsearch repository
+  yum_repository:
+      name: elasticsearch
+      description: elasticsearch 2.4 packages from elasticsearch
+      baseurl: https://packages.elastic.co/elasticsearch/2.x/centos
+      gpgcheck: yes
+      gpgkey: https://packages.elastic.co/GPG-KEY-elasticsearch
+      enabled: yes
+
+- name: temporarily enable cbs repos
+  yum_repository:
+      name: cbs
+      description: repository for missing pieces for fluentd
+      baseurl: http://cbs.centos.org/repos/opstools7-elastic-common-testing/x86_64/os/
+      gpgcheck: no
+      enabled: yes

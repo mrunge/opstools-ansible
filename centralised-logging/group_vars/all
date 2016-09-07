@@ -1,3 +1,7 @@
 elasticsearch_server: localhost
 elasticsearch_port: 9200
 http_port: 8888
+
+elasticsearch_config:
+    http.cors.enabled: true
+    http.cors.allow-origin: '"/.*/"'
