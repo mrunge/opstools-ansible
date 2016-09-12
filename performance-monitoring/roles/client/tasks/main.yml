@@ -7,11 +7,16 @@
       - collectd-virt
 
 - name: place write_graphite-config
-  template: src=10-write-graphite.conf.j2 dest=/etc/collectd.d/10-write_graphite.conf
+  template:
+      src: 10-write-graphite.conf.j2
+      dest: /etc/collectd.d/10-write_graphite.conf
   notify: restart collectd
 
 - name: enable collectd
-  service: name=collectd state=started enabled=yes
+  service:
+      name: collectd
+      state: started
+      enabled: yes
 
 
 - name: test to see if selinux is running
@@ -20,6 +25,9 @@
   changed_when: false
 
 - name: set collectd_tcp_network_connect
-  seboolean: name=collectd_tcp_network_connect state=yes persistent=yes
+  seboolean:
+      name: collectd_tcp_network_connect
+      state: yes
+      persistent: yes
   when: sestatus.rc != 0 or sestatus.stdout == "Enforcing" or
       sestatus.stdout == "Permissive"

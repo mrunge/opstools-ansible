@@ -14,6 +14,12 @@
 - name: http service state
   service: name=httpd state=started enabled=yes
 
+- name: enable and start kibana
+  service:
+      name: kibana
+      state: started
+      enabled: yes
+
 - name: test to see if selinux is running
   command: getenforce
   register: sestatus

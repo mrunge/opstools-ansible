@@ -1,0 +1,78 @@
+---
+- name: install grafana
+  yum: name={{ item }} state=present
+  with_items:
+      - grafana
+      - graphite-web
+      - httpd
+      - python-carbon
+
+- name: check if graphanadb already created
+  stat:
+      path: /var/lib/graphite-web/graphite.db
+  register: graphitedb
+
+- name: create database for graphite
+  command: su apache -s /bin/bash -c "/usr/bin/graphite-manage syncdb --noinput"
+  when: graphitedb.stat.exists == False
+
+- name: enable services
+  service:
+      name: carbon-cache
+      state: started
+      enabled: yes
+
+- name: tweak httpd config
+  replace:
+      dest: /etc/httpd/conf.d/graphite-web.conf
+      regexp: "Require local$"
+      replace: "Require all granted"
+  notify: restart httpd
+
+- name: listen on port 8080
+  lineinfile:
+      dest: /etc/httpd/conf.d/graphite-web.conf
+      create: yes
+      state: present
+      regexp: "^Listen 8080"
+      insertafter: "# Graphite Web Basic mod_wsgi vhost"
+      line: "Listen 8080"
+
+- name: change port on graphite conf
+  replace:
+      dest: /etc/httpd/conf.d/graphite-web.conf
+      regexp: "^\<VirtualHost \*:80\>"
+      replace: "<VirtualHost *:8080>"
+  notify: restart httpd
+
+- name: enable httpd services
+  service:
+      name: httpd
+      state: started
+      enabled: yes
+
+- name: enable grafana
+  service:
+      name: grafana-server
+      state: started
+      enabled: yes
+
+- name: check if firewalld is installed
+  stat:
+      path: /usr/sbin/firewalld
+  register: firewalld
+
+- name: start firewalld
+  service:
+      name: firewalld
+      state: started
+      enabled: yes
+  when: firewalld.stat.exists == True
+
+- name: insert firewalld rule for grafana
+  firewalld:
+      port: 3000/tcp
+      permanent: true
+      state: enabled
+      immediate: yes
+  when: firewalld.stat.exists == True

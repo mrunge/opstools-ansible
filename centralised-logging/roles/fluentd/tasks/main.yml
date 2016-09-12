@@ -1,4 +1,10 @@
 ---
+- name: install fluentd package
+  yum: name={{ item }} state=present
+  with_items:
+      - fluentd
+      - rubygem-fluent-plugin-elasticsearch
+
 - name: Configure fluentd to accept logs
   template: src=./roles/fluentd/common/templates/fluent.conf.j2 dest=/etc/fluentd/fluent.conf
 
